@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>اختبر نفسك في الإعراب 📝 - الأستاذ وليد خنيش</title>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-color: #2b5c8f;
+            --primary-hover: #1e4269;
+            --secondary-color: #2e7d32;
+            --accent-color: #d97706;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #2c3e50;
+            --text-muted: #607d8b;
+            --border-radius: 16px;
+            --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 16px;
+            background-image: radial-gradient(#2b5c8f 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 550px; /* تصغير العرض ليصبح متناسقاً ومباشراً */
+            background: var(--card-bg);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow);
+            padding: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .teacher-header {
+            text-align: center;
+            background: #f0f7ff;
+            padding: 6px 12px;
+            border-radius: 20px;
+            color: var(--primary-color);
+            font-weight: 800;
+            font-size: 0.95rem;
+            margin-bottom: 16px;
+            border: 1px solid #d0e1f9;
+        }
+
+        .screen {
+            display: none;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .screen.active {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h1 {
+            color: var(--primary-color);
+            font-size: 1.6rem;
+            text-align: center;
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 12px;
+            background-color: var(--primary-color);
+            color: white;
+            font-size: 1.05rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-align: center;
+            text-decoration: none;
+            box-shadow: 0 4px 6px -1px rgba(43, 92, 143, 0.2);
+            margin-top: 10px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+        }
+
+        .btn-success {
+            background-color: #25d366;
+            box-shadow: 0 4px 6px -1px rgba(37, 211, 102, 0.2);
+        }
+        .btn-success:hover { background-color: #1eb956; }
+
+        .btn-secondary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+            box-shadow: none;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .feature-item {
+            background: #f8fafc;
+            padding: 10px 12px;
+            border-radius: 10px;
+            font-size: 0.88rem;
+            color: var(--text-main);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid #edf2f7;
+        }
+
+        .level-options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .level-btn {
+            padding: 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            background: white;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .level-btn:hover {
+            border-color: var(--primary-color);
+            background-color: #f0f7ff;
+        }
+
+        .progress-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 6px;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .progress-bar {
+            height: 6px;
+            width: 100%;
+            background-color: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background-color: var(--primary-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .question-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-main);
+            margin-bottom: 14px;
+            line-height: 1.5;
+        }
+
+        .options-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .option-btn {
+            padding: 12px 14px;
+            border: 2px solid #e2e8f0;
+            border-radius: 10px;
+            background: white;
+            font-size: 0.95rem;
+            text-align: right;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--text-main);
+            font-weight: 600;
+        }
+
+        .option-btn:hover:not([disabled]) {
+            border-color: var(--primary-color);
+            background-color: #f8fafc;
+        }
+
+        .option-btn.correct {
+            border-color: #2e7d32 !important;
+            background-color: #e8f5e9 !important;
+            color: #2e7d32 !important;
+        }
+
+        .option-btn.wrong {
+            border-color: #c62828 !important;
+            background-color: #ffebee !important;
+            color: #c62828 !important;
+        }
+
+        .feedback-box {
+            margin-top: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            display: none;
+            text-align: center;
+        }
+
+        /* تصميم النتيجة المصغر والسريع */
+        .result-box {
+            background: linear-gradient(135deg, #2b5c8f 0%, #1e4269 100%);
+            color: white;
+            border-radius: 14px;
+            padding: 16px;
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .score-number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            line-height: 1;
+            margin: 8px 0;
+        }
+
+        .score-label {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: #fde047;
+        }
+
+        /* بطاقة العرض المختصرة جداً */
+        .offer-card {
+            background: #fffbebf5;
+            border: 1px solid #fcd34d;
+            border-radius: 12px;
+            padding: 14px;
+            margin-bottom: 14px;
+        }
+
+        .offer-badge {
+            background: #d97706;
+            color: white;
+            font-size: 0.75rem;
+            font-weight: 800;
+            padding: 2px 8px;
+            border-radius: 6px;
+            display: inline-block;
+            margin-bottom: 6px;
+        }
+
+        .offer-title {
+            font-weight: 800;
+            font-size: 1rem;
+            color: #78350f;
+            margin-bottom: 4px;
+        }
+
+        .offer-details {
+            font-size: 0.88rem;
+            color: #451a03;
+            line-height: 1.5;
+        }
+
+        .quick-links {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 10px;
+        }
+
+        .link-btn {
+            font-size: 0.85rem;
+            padding: 8px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            text-align: center;
+            color: white;
+            display: block;
+        }
+
+        .fb-bg { background-color: #1877f2; }
+        .msg-bg { background-color: #0084ff; }
+
+        /* Modal للنموذج */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 16px;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 14px;
+            width: 100%;
+            max-width: 400px;
+            position: relative;
+        }
+
+        .close-modal {
+            position: absolute;
+            left: 14px;
+            top: 10px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+
+        .form-group {
+            margin-bottom: 10px;
+            text-align: right;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 8px 10px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+
+    <div class="teacher-header">
+        👨‍🏫 الأستاذ وليد خنيش
+    </div>
+
+    <!-- 1. الشاشة الرئيسية -->
+    <div id="home-screen" class="screen active">
+        <h1>اختبر نفسك في الإعراب 📝</h1>
+
+        <div class="features">
+            <div class="feature-item">⏱️ اختبار سريع</div>
+            <div class="feature-item">📝 أسئلة متنوعة</div>
+            <div class="feature-item">📊 نتيجة فورية</div>
+            <div class="feature-item">🎓 لمختلف المستويات</div>
+        </div>
+
+        <button class="btn" onclick="goToScreen('level-screen')">ابدأ الاختبار مجانًا</button>
+    </div>
+
+    <!-- 2. اختيار المستوى -->
+    <div id="level-screen" class="screen">
+        <h1 style="font-size: 1.3rem;">اختر مستواك الدراسي 🎓</h1>
+
+        <div class="level-options">
+            <button class="level-btn" onclick="startQuiz('middle')">
+                <span>التعليم المتوسط</span>
+                <span>←</span>
+            </button>
+            <button class="level-btn" onclick="startQuiz('secondary')">
+                <span>التعليم الثانوي</span>
+                <span>←</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- 3. شاشة الاختبار -->
+    <div id="quiz-screen" class="screen">
+        <div class="progress-header">
+            <span id="question-count">السؤال 1 من 10</span>
+            <span id="level-indicator" style="color: var(--primary-color);"></span>
+        </div>
+        <div class="progress-bar">
+            <div id="progress-fill" class="progress-fill"></div>
+        </div>
+
+        <div class="question-card">
+            <div id="question-text" class="question-title">جاري التحميل...</div>
+            <div id="options-container" class="options-list"></div>
+            <div id="feedback-box" class="feedback-box"></div>
+        </div>
+
+        <button id="next-btn" class="btn" style="display: none;" onclick="nextQuestion()">السؤال التالي ←</button>
+    </div>
+
+    <!-- 4. شاشة النتيجة النهائية المختصرة والمركزة -->
+    <div id="result-screen" class="screen">
+        
+        <!-- النتيجة في بطاقة ملفتة في الأعلى -->
+        <div class="result-box">
+            <div style="font-size: 0.9rem; opacity: 0.9;">نتيجتك النهائية هي:</div>
+            <div id="score-text" class="score-number">0 / 10</div>
+            <div id="evaluation-text" class="score-label">ممتاز</div>
+        </div>
+
+        <!-- بطاقة العرض السريع دون الإطالة -->
+        <div class="offer-card">
+            <span class="offer-badge">🔥 عرض سبتمبر الخاص</span>
+            <div class="offer-title">دورة "أساسيات الإعراب" + دروس الدعم</div>
+            <div class="offer-details">
+                • <strong>دورة الأساسيات:</strong> 500 دج (3 أيام / 6 ساعات).<br>
+                • <strong>عرض الشارع (الدورة + دعم سبتمبر):</strong> 1000 دج فقط!<br>
+                • <strong>دروس الدعم الشهرية:</strong> 4 متوسط (1500دج) | بكالوريا (2500دج).
+            </div>
+        </div>
+
+        <!-- أزرار الدعوة إلى الإجراء المباشر (CTA) -->
+        <a href="https://wa.me/message/SA4O3V6I7YAIM1" target="_blank" class="btn btn-success">
+            🟢 احجز مكانك الآن عبر واتساب
+        </a>
+
+        <button class="btn btn-secondary" onclick="openModal()">
+            📝 حجز عبر ملء النموذج
+        </button>
+
+        <div class="quick-links">
+            <a href="https://web.facebook.com/profile.php?id=100063940999700" target="_blank" class="link-btn fb-bg">
+                فيسبوك
+            </a>
+            <a href="https://business.facebook.com/latest/inbox/all/?nav_ref=manage_page_ap_plus_inbox_message_button&asset_id=109526753870497&business_id=1247165376695591" target="_blank" class="link-btn msg-bg">
+                ميسنجر
+            </a>
+        </div>
+
+        <button class="btn btn-secondary" style="border: none; font-size: 0.85rem; margin-top: 6px;" onclick="shareResult()">
+            📤 مشاركة النتيجة
+        </button>
+    </div>
+
+</div>
+
+<!-- نافذة نموذج التسجيل المنبثقة (تفتح بضغط زر فقط لمنع التشتت) -->
+<div id="form-modal" class="modal">
+    <div class="modal-content">
+        <span class="close-modal" onclick="closeModal()">&times;</span>
+        <h3 style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 12px; text-align: center;">نموذج حجز المقعد</h3>
+        <form id="contact-form" onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+                <label>الاسم واللقب</label>
+                <input type="text" id="user-name" required placeholder="اسمك الكامل">
+            </div>
+            <div class="form-group">
+                <label>المستوى الدراسي</label>
+                <input type="text" id="user-level" required placeholder="مثال: 4 متوسط / بكالوريا">
+            </div>
+            <div class="form-group">
+                <label>رقم الهاتف</label>
+                <input type="tel" id="user-phone" required placeholder="06XXXXXXXX">
+            </div>
+            <div class="form-group">
+                <label>نوع التسجيل</label>
+                <select id="user-course" required>
+                    <option value="دورة أساسيات الإعراب">دورة أساسيات الإعراب (500 دج)</option>
+                    <option value="أساسيات الإعراب + دروس الدعم">العرض المدمج (1000 دج)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn" style="padding: 10px; font-size: 0.95rem; margin-top: 10px;">إرسال الطلب</button>
+        </form>
+        <p id="form-success" style="display:none; color: var(--secondary-color); font-weight: bold; margin-top: 10px; text-align: center; font-size: 0.9rem;">تم تسجيل طلبك بنجاح! سنتصل بك قريباً.</p>
+    </div>
+</div>
+
+<script>
+    const questionsDatabase = {
+        middle: [
+            {
+                q: "ما إعراب: \"تجتهد\" في جملة: 'عليك أنْ تجتهدَ'؟",
+                options: ["فعل مضارع مرفوع", "فعل مضارع منصوب بأن", "فعل ماضٍ", "فعل مجزوم"],
+                correct: 1
+            },
+            {
+                q: "كلمة 'أبوك' في 'حضَرَ أبوك' مرفوعة وعلامة رفعها:",
+                options: ["الضمة", "الواو", "الألف", "ثبوت النون"],
+                correct: 1
+            },
+            {
+                q: "إعراب 'يكتبون' في 'الطلاب يكتبون الدرس':",
+                options: ["فعل مضارع مرفوع بالضمة", "فعل مضارع مرفوع بثبوت النون", "مرفوع بالواو والنون", "مبتدأ"],
+                correct: 1
+            },
+            {
+                q: "ما حكم الممنوع من الصرف إذا لم يُضف ولم يُعرّف بـ 'أل'؟",
+                options: ["يجُر بالفتحة نيابة عن الكسرة", "يجُر بالكسرة", "يُبنى على السكون", "يُنصب بالضمة"],
+                correct: 0
+            },
+            {
+                q: "تُعرب 'سريعًا' في 'سار القطار سريعًا':",
+                options: ["مفعول به", "حال منصوب", "صفة", "تمييز"],
+                correct: 1
+            },
+            {
+                q: "ما إعراب 'تلميذا' في: 'جاء عشرون تلميذا'؟",
+                options: ["مفعول به", "تمييز منصوب", "بدل", "مضاف إليه"],
+                correct: 1
+            },
+            {
+                q: "في جملة 'كان المعلمُ نشيطاً'، كلمة 'نشيطاً':",
+                options: ["اسم كان", "خبر كان منصوب", "خبر مرفوع", "صفة"],
+                correct: 1
+            },
+            {
+                q: "ما إعراب كلمة: الحمدُ في قوله تعالى: (الحمد لله رب العالمين)؟",
+                options: ["خبر مرفوع", "مبتدأ مرفوع بالضمة", "فاعل مرفوع", "مفعول به"],
+                correct: 1
+            },
+            {
+                q: "يُجزم الفعل المضارع إذا سُبق بـ:",
+                options: ["أنْ", "لمْ", "كان", "أنَّ"],
+                correct: 1
+            },
+            {
+                q: "ما إعراب \"أرميَ\" في جملة: \"لن أرميَ الأوساخ على الأرض\"؟",
+                options: ["فعل مضارع منصوب بلن وعلامة نصبه الفتحة الظاهرة", "فعل مضارع مرفوع", "فعل مضارع مجزوم", "فعل أمر"],
+                correct: 0
+            }
+        ],
+        secondary: [
+            {
+                q: "ما إعراب 'كلا' في: 'حضرَ الطالبانِ كِلاهُما'؟",
+                options: ["توكيد معنوي مرفوع بالألف", "فاعل مرفوع بالضمة", "بدل", "مفعول به"],
+                correct: 0
+            },
+            {
+                q: "في جملة 'إياكَ والكسلَ'، الكلمة 'الكسلَ' تُعرب:",
+                options: ["مفعول به بفعل محذوف تقديره احذر", "معطوف مرفوع", "خبر", "مبتدأ مؤخر"],
+                correct: 0
+            },
+            {
+                q: "ما المحل الإعرابي للجملة بين قوسين: 'العلمُ (يرفعُ شأنَ صاحبه)'؟",
+                options: ["في محل رفع خبر", "في محل نصب حال", "لا محل لها من الإعراب", "في محل جر"],
+                correct: 0
+            },
+            {
+                q: "ما إعراب 'عسى' في: 'عسى اللهُ أنْ يأتِيَ بالفتحِ'؟",
+                options: ["فعل ماضٍ تام", "فعل جامد من أفعال الرجاء ناسخ", "حرف ترجٍّ", "فعل أمر"],
+                correct: 1
+            },
+            {
+                q: "نوع 'ما' في: 'نِعْمَ ما تفعلُ الإحسانُ':",
+                options: ["موصولة/معرفة تامّة أو نكرة في محل نصب/رفع", "نافية", "زائدة", "استفهامية"],
+                correct: 0
+            },
+            {
+                q: "ما إعراب المصدر المؤول في: 'ينبغي أن تدرسَ'؟",
+                options: ["في محل رفع فاعل", "في محل نصب مفعول به", "في محل جر", "لا محل له"],
+                correct: 0
+            },
+            {
+                q: "تُعرب 'نفسه' في: 'جاءَ الرجلُ نفسُهُ':",
+                options: ["توكيد معنوي مرفوع", "مفعول به", "فاعل ثانٍ", "بدل"],
+                correct: 0
+            },
+            {
+                q: "نوع المنادى في 'يا طالبًا علمًا اجتهد':",
+                options: ["منادى شبيه بالمضاف", "منادى مضاف", "منادى نكرة مقصودة", "علم مفرد"],
+                correct: 0
+            },
+            {
+                q: "ما الإعراب الصحيح لـ 'طالب' في: 'لا طالبَ علمٍ مقهورٌ'؟",
+                options: ["اسم لا نافية للجنس منصوب", "مبتدأ مرفوع", "اسم لا مبني على الفتح", "خبر لا"],
+                correct: 0
+            },
+            {
+                q: "الاسم المرفوع بعد 'حبّذا' يُعرب دائماً:",
+                options: ["مبتدأ مؤخر وجوباً", "فاعلاً", "خبر مقدم", "بدلاً"],
+                correct: 0
+            }
+        ]
+    };
+
+    let currentLevel = '';
+    let currentQuestions = [];
+    let currentIndex = 0;
+    let score = 0;
+
+    function goToScreen(screenId) {
+        document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+        document.getElementById(screenId).classList.add('active');
+        window.scrollTo(0, 0);
+    }
+
+    function startQuiz(level) {
+        currentLevel = level;
+        currentQuestions = questionsDatabase[level];
+        currentIndex = 0;
+        score = 0;
+
+        const levelNames = { 'middle': 'التعليم المتوسط', 'secondary': 'التعليم الثانوي' };
+        document.getElementById('level-indicator').textContent = levelNames[level];
+
+        goToScreen('quiz-screen');
+        renderQuestion();
+    }
+
+    function renderQuestion() {
+        const qData = currentQuestions[currentIndex];
+        
+        document.getElementById('question-count').textContent = `السؤال ${currentIndex + 1} من ${currentQuestions.length}`;
+        const progressPercent = (currentIndex / currentQuestions.length) * 100;
+        document.getElementById('progress-fill').style.width = `${progressPercent}%`;
+
+        document.getElementById('next-btn').style.display = 'none';
+        const feedbackBox = document.getElementById('feedback-box');
+        feedbackBox.style.display = 'none';
+
+        document.getElementById('question-text').textContent = qData.q;
+
+        const optionsContainer = document.getElementById('options-container');
+        optionsContainer.innerHTML = '';
+
+        qData.options.forEach((opt, idx) => {
+            const btn = document.createElement('button');
+            btn.className = 'option-btn';
+            btn.textContent = opt;
+            btn.onclick = () => selectOption(idx);
+            optionsContainer.appendChild(btn);
+        });
+    }
+
+    function selectOption(selectedIndex) {
+        const qData = currentQuestions[currentIndex];
+        const buttons = document.querySelectorAll('.option-btn');
+        
+        buttons.forEach(btn => btn.disabled = true);
+        const feedbackBox = document.getElementById('feedback-box');
+
+        if (selectedIndex === qData.correct) {
+            buttons[selectedIndex].classList.add('correct');
+            score++;
+            feedbackBox.textContent = "إجابة صحيحة! ✨";
+            feedbackBox.style.backgroundColor = "#e8f5e9";
+            feedbackBox.style.color = "#2e7d32";
+        } else {
+            buttons[selectedIndex].classList.add('wrong');
+            buttons[qData.correct].classList.add('correct');
+            feedbackBox.textContent = "إجابة خاطئة! ❌";
+            feedbackBox.style.backgroundColor = "#ffebee";
+            feedbackBox.style.color = "#c62828";
+        }
+
+        feedbackBox.style.display = 'block';
+        
+        const nextBtn = document.getElementById('next-btn');
+        nextBtn.textContent = (currentIndex < currentQuestions.length - 1) ? 'السؤال التالي ←' : 'عرض النتيجة 📊';
+        nextBtn.style.display = 'block';
+    }
+
+    function nextQuestion() {
+        currentIndex++;
+        if (currentIndex < currentQuestions.length) {
+            renderQuestion();
+        } else {
+            showResults();
+        }
+    }
+
+    function showResults() {
+        goToScreen('result-screen');
+        document.getElementById('score-text').textContent = `${score} / ${currentQuestions.length}`;
+        
+        const evalText = document.getElementById('evaluation-text');
+        if (score >= 9) evalText.textContent = "ممتاز! مستوى رائع جداً 🎉";
+        else if (score >= 7) evalText.textContent = "جيد جدًا! لديك أساس متين 👏";
+        else if (score >= 5) evalText.textContent = "نتيجة متوسطة، تحتاج مراجعة ⚖️";
+        else evalText.textContent = "تحتاج إلى تأسيس وتدريب 📚";
+    }
+
+    function shareResult() {
+        const text = `حصلت على ${score}/${currentQuestions.length} في اختبار الإعراب مع الأستاذ وليد خنيش! اختبر مستواك الآن:`;
+        if (navigator.share) {
+            navigator.share({ title: 'اختبر نفسك في الإعراب', text: text, url: window.location.href }).catch(() => {});
+        } else {
+            navigator.clipboard.writeText(`${text} ${window.location.href}`);
+            alert('تم نسخ النتيجة ورابط الموقع!');
+        }
+    }
+
+    function openModal() { document.getElementById('form-modal').style.display = 'flex'; }
+    function closeModal() { document.getElementById('form-modal').style.display = 'none'; }
+
+    function handleFormSubmit(e) {
+        e.preventDefault();
+        document.getElementById('contact-form').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
