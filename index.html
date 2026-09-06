@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -841,100 +841,50 @@
     function openModal() { document.getElementById('form-modal').style.display = 'flex'; }
     function closeModal() { document.getElementById('form-modal').style.display = 'none'; }
 
-    function handleFormSubmit(e) {
-        e.preventDefault();
-        document.getElementById('contact-form').style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
-    }
-</script>
-<form id="registrationForm">
-
-    <input
-        type="text"
-        id="name"
-        placeholder="الاسم واللقب"
-        required
-    >
-
-    <select id="state" required>
-        <option value="">اختر الولاية</option>
-        <option value="سطيف">سطيف</option>
-        <option value="الجزائر">الجزائر</option>
-        <option value="وهران">وهران</option>
-        <option value="قسنطينة">قسنطينة</option>
-        <!-- أضف باقي الولايات -->
-    </select>
-
-    <select id="level" required>
-        <option value="">اختر المستوى الدراسي</option>
-        <option value="الابتدائي">الابتدائي</option>
-        <option value="المتوسط">المتوسط</option>
-        <option value="الثانوي">الثانوي</option>
-    </select>
-
-    <input
-        type="tel"
-        id="phone"
-        placeholder="رقم الهاتف"
-        required
-    >
-
-    <select id="lessonType" required>
-        <option value="">نوع الدروس</option>
-        <option value="حضوري">حضوري</option>
-        <option value="عن بعد">عن بعد</option>
-    </select>
-
-    <select id="registrationType" required>
-        <option value="">نوع التسجيل</option>
-        <option value="تسجيل جديد">تسجيل جديد</option>
-        <option value="استفسار">استفسار</option>
-    </select>
-
-    <button type="submit">إرسال التسجيل</button>
-
-</form>
-
-<p id="result"></p>
-
-<script>
-
-const SCRIPT_URL = "ضع هنا رابط Google Apps Script";
-
-document.getElementById("registrationForm").addEventListener("submit", async function(e) {
-
+   async function handleFormSubmit(e) {
     e.preventDefault();
 
-    const data = {
-        name: document.getElementById("name").value,
-        state: document.getElementById("state").value,
-        level: document.getElementById("level").value,
-        phone: document.getElementById("phone").value,
-        lessonType: document.getElementById("lessonType").value,
-        registrationType: document.getElementById("registrationType").value
+    // ضع رابط تطبيق الويب من Google Apps Script هنا
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbxB07TiroKCbRUq6t25Cjv7sgmwA9P2PwtmQ8OKWzZxINtUyN7LRVNfViqX3AxkhTY/exec';
+
+    // جمع البيانات من عناصر الإدخال
+    const formData = {
+        name: document.getElementById('user-name').value,
+        state: document.getElementById('user-state').value,
+        level: document.getElementById('user-level').value,
+        phone: document.getElementById('user-phone').value,
+        lessonType: document.getElementById('user-lesson-type').value,
+        course: document.getElementById('user-course').value
     };
 
-    try {
+    // تغيير حالة الزر أثناء الإرسال
+    const submitBtn = e.target.querySelector('button[type="submit"]');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'جاري الإرسال...';
+    submitBtn.disabled = true;
 
-        await fetch(SCRIPT_URL, {
-            method: "POST",
-            body: JSON.stringify(data)
+    try {
+        await fetch(scriptURL, {
+            method: 'POST',
+            mode: 'no-cors',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
         });
 
-        document.getElementById("result").textContent =
-            "تم إرسال التسجيل بنجاح";
-
-        this.reset();
+        // إخفاء النموذج وإظهار رسالة النجاح
+        document.getElementById('contact-form').style.display = 'none';
+        document.getElementById('form-success').style.display = 'block';
 
     } catch (error) {
-
-        document.getElementById("result").textContent =
-            "حدث خطأ أثناء إرسال التسجيل";
-
+        alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً');
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
     }
-
-});
-
+}
+    }
 </script>
+
 </body>
 </html>
