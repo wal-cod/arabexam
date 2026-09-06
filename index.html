@@ -202,27 +202,33 @@
             font-size: 1.15rem;
             font-weight: 700;
             color: var(--text-main);
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             line-height: 1.5;
+            text-align: center;
         }
 
+        /* تنسيق عمودي صريح للاختيارات وتحت بعضها 100% */
         .options-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+            display: flex !important;
+            flex-direction: column !important;
+            gap: 10px;
+            width: 100%;
         }
 
         .option-btn {
-            padding: 12px 14px;
+            width: 100% !important;
+            display: block;
+            padding: 14px 16px;
             border: 2px solid #e2e8f0;
-            border-radius: 10px;
+            border-radius: 12px;
             background: white;
-            font-size: 0.95rem;
+            font-size: 0.98rem;
             text-align: right;
             cursor: pointer;
             transition: all 0.2s;
             color: var(--text-main);
             font-weight: 600;
+            box-sizing: border-box;
         }
 
         .option-btn:hover:not([disabled]) {
@@ -247,6 +253,7 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
+            width: 100%;
         }
 
         .text-answer-input {
@@ -264,9 +271,9 @@
         }
 
         .feedback-box {
-            margin-top: 12px;
+            margin-top: 14px;
             padding: 12px;
-            border-radius: 8px;
+            border-radius: 10px;
             font-size: 0.95rem;
             font-weight: 700;
             display: none;
@@ -296,14 +303,13 @@
             color: #fde047;
         }
 
-        /* تعديلات العروض والخطوط الموضحة */
         .offer-card {
             background: #fffbebf5;
             border: 1px solid #fcd34d;
             border-radius: 12px;
             padding: 16px;
             margin-bottom: 14px;
-            color: #1e293b; /* خط غامق وأكثر وضوحاً */
+            color: #1e293b;
         }
 
         .offer-badge {
@@ -333,7 +339,7 @@
 
         .offer-divider {
             border: 0;
-            border-top: 2px solid #ffffff; /* فاصل خط أبيض واضح */
+            border-top: 2px solid #ffffff;
             margin: 12px 0;
         }
 
@@ -462,7 +468,7 @@
 
         <div class="question-card">
             <div id="question-text" class="question-title">جاري التحميل...</div>
-            <div id="options-container"></div>
+            <div id="options-container" class="options-list"></div>
             <div id="feedback-box" class="feedback-box"></div>
         </div>
 
@@ -478,7 +484,6 @@
             <div id="evaluation-text" class="score-label">ممتاز</div>
         </div>
 
-        <!-- بطاقة العروض والتفاصيل بمظهر محسن وخط أوضح -->
         <div class="offer-card">
             <div class="offer-title">دورة "أساسيات الإعراب"</div>
             <div class="offer-details">
@@ -487,7 +492,6 @@
                 • <strong>المدة:</strong> 3 أيام (6 ساعات) — سجل الآن!
             </div>
             
-            <!-- خط أبيض فاصل -->
             <hr class="offer-divider">
 
             <span class="offer-badge">🎁 عرض خاص بشهر سبتمبر</span>
@@ -509,7 +513,6 @@
             <a href="https://web.facebook.com/profile.php?id=100063940999700" target="_blank" class="link-btn fb-bg">
                 فيسبوك
             </a>
-            <!-- رابط ميسنجر المعدل -->
             <a href="https://m.me/100063940999700" target="_blank" class="link-btn msg-bg">
                 ميسنجر
             </a>
@@ -518,7 +521,7 @@
 
 </div>
 
-<!-- نافذة نموذج التسجيل المعدلة بالحقول الجديدة -->
+<!-- نافذة نموذج التسجيل -->
 <div id="form-modal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
@@ -561,7 +564,6 @@
 </div>
 
 <script>
-    // الأسئلة المحدثة بحسب تعديلاتك المطلوبة (السؤال رقم 10 كتابي بدون خيارات)
     const questionsDatabase = {
         middle: [
             {
@@ -621,7 +623,7 @@
             {
                 q: "أعرب كلمة \"المطرُ\" في الجملة: \"ما زالَ المطرُ نازلًا.\"",
                 type: "text",
-                correctKeyword: "اسم ما زال", // كلمة مفتاحية للتحقق من إجابة التلميذ
+                correctKeyword: "اسم ما زال",
                 modelAnswer: "اسم ما زال مرفوع وعلامة رفعه الضمة الظاهرة على آخره"
             }
         ],
@@ -728,7 +730,6 @@
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = '';
 
-        // تمييز السؤال العاشر (كتابي بدون اختيارات)
         if (qData.type === 'text') {
             const textContainer = document.createElement('div');
             textContainer.className = 'text-answer-container';
@@ -749,7 +750,6 @@
             textContainer.appendChild(submitBtn);
             optionsContainer.appendChild(textContainer);
         } else {
-            // الأسئلة ذات الاختيارات المتعددة
             qData.options.forEach((opt, idx) => {
                 const btn = document.createElement('button');
                 btn.className = 'option-btn';
