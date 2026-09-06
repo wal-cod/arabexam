@@ -847,42 +847,94 @@
         document.getElementById('form-success').style.display = 'block';
     }
 </script>
-<form id="contactForm">
-  <input type="text" name="الاسم واللقب" placeholder="الاسم واللقب" required>
-  <input type="text" name="الولاية" placeholder="الولاية" required>
-  <input type="text" name="المستوى الدراسي" placeholder="المستوى الدراسي" required>
-  <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
-  <input type="text" name="نوع الدروس" placeholder="نوع الدروس" required>
-  <input type="text" name="نوع التسجيل" placeholder="نوع التسجيل" required>
-  <button type="submit">إرسال</button>
+<form id="registrationForm">
+
+    <input
+        type="text"
+        id="name"
+        placeholder="الاسم واللقب"
+        required
+    >
+
+    <select id="state" required>
+        <option value="">اختر الولاية</option>
+        <option value="سطيف">سطيف</option>
+        <option value="الجزائر">الجزائر</option>
+        <option value="وهران">وهران</option>
+        <option value="قسنطينة">قسنطينة</option>
+        <!-- أضف باقي الولايات -->
+    </select>
+
+    <select id="level" required>
+        <option value="">اختر المستوى الدراسي</option>
+        <option value="الابتدائي">الابتدائي</option>
+        <option value="المتوسط">المتوسط</option>
+        <option value="الثانوي">الثانوي</option>
+    </select>
+
+    <input
+        type="tel"
+        id="phone"
+        placeholder="رقم الهاتف"
+        required
+    >
+
+    <select id="lessonType" required>
+        <option value="">نوع الدروس</option>
+        <option value="حضوري">حضوري</option>
+        <option value="عن بعد">عن بعد</option>
+    </select>
+
+    <select id="registrationType" required>
+        <option value="">نوع التسجيل</option>
+        <option value="تسجيل جديد">تسجيل جديد</option>
+        <option value="استفسار">استفسار</option>
+    </select>
+
+    <button type="submit">إرسال التسجيل</button>
+
 </form>
 
-<script>
-  const form = document.getElementById('contactForm');
+<p id="result"></p>
 
-  form.addEventListener('submit', function(e) {
+<script>
+
+const SCRIPT_URL = "ضع هنا رابط Google Apps Script";
+
+document.getElementById("registrationForm").addEventListener("submit", async function(e) {
+
     e.preventDefault();
 
-    // ⚠️ استبدل هذا الرابط بالرابط الذي ستحصل عليه من خطوة النشر أدناه
-    const scriptURL = 'https://script.google.com/macros/s/.../exec'; 
+    const data = {
+        name: document.getElementById("name").value,
+        state: document.getElementById("state").value,
+        level: document.getElementById("level").value,
+        phone: document.getElementById("phone").value,
+        lessonType: document.getElementById("lessonType").value,
+        registrationType: document.getElementById("registrationType").value
+    };
 
-    fetch(scriptURL, {
-      method: 'POST',
-      body: new FormData(form)
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.result === 'success') {
-        alert('تم إرسال بياناتك بنجاح!');
-        form.reset(); // مسح الحقول
-      } else {
-        alert('حدث خطأ: ' + data.error);
-      }
-    })
-    .catch(error => {
-      alert('فشل الاتصال، تأكد من الإنترنت');
-    });
-  });
+    try {
+
+        await fetch(SCRIPT_URL, {
+            method: "POST",
+            body: JSON.stringify(data)
+        });
+
+        document.getElementById("result").textContent =
+            "تم إرسال التسجيل بنجاح";
+
+        this.reset();
+
+    } catch (error) {
+
+        document.getElementById("result").textContent =
+            "حدث خطأ أثناء إرسال التسجيل";
+
+    }
+
+});
+
 </script>
 </body>
 </html>
