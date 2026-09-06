@@ -1,4 +1,4 @@
- <<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
@@ -207,7 +207,6 @@
             text-align: center;
         }
 
-        /* تنسيق عمودي صريح للاختيارات وتحت بعضها 100% */
         .options-list {
             display: flex !important;
             flex-direction: column !important;
@@ -248,7 +247,6 @@
             color: #c62828 !important;
         }
 
-        /* تنسيقات سؤال الكتابة المباشرة */
         .text-answer-container {
             display: flex;
             flex-direction: column;
@@ -841,48 +839,43 @@
     function openModal() { document.getElementById('form-modal').style.display = 'flex'; }
     function closeModal() { document.getElementById('form-modal').style.display = 'none'; }
 
-   async function handleFormSubmit(e) {
-    e.preventDefault();
+    async function handleFormSubmit(e) {
+        e.preventDefault();
 
-    // ضع رابط تطبيق الويب من Google Apps Script هنا
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbxB07TiroKCbRUq6t25Cjv7sgmwA9P2PwtmQ8OKWzZxINtUyN7LRVNfViqX3AxkhTY/exec';
+        const scriptURL = 'https://script.google.com/macros/s/AKfycbxB07TiroKCbRUq6t25Cjv7sgmwA9P2PwtmQ8OKWzZxINtUyN7LRVNfViqX3AxkhTY/exec';
 
-    // جمع البيانات من عناصر الإدخال
-    const formData = {
-        name: document.getElementById('user-name').value,
-        state: document.getElementById('user-state').value,
-        level: document.getElementById('user-level').value,
-        phone: document.getElementById('user-phone').value,
-        lessonType: document.getElementById('user-lesson-type').value,
-        course: document.getElementById('user-course').value
-    };
+        const formData = {
+            name: document.getElementById('user-name').value,
+            state: document.getElementById('user-state').value,
+            level: document.getElementById('user-level').value,
+            phone: document.getElementById('user-phone').value,
+            lessonType: document.getElementById('user-lesson-type').value,
+            course: document.getElementById('user-course').value
+        };
 
-    // تغيير حالة الزر أثناء الإرسال
-    const submitBtn = e.target.querySelector('button[type="submit"]');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'جاري الإرسال...';
-    submitBtn.disabled = true;
+        const submitBtn = e.target.querySelector('button[type="submit"]');
+        const originalText = submitBtn.textContent;
+        submitBtn.textContent = 'جاري الإرسال...';
+        submitBtn.disabled = true;
 
-    try {
-        await fetch(scriptURL, {
-            method: 'POST',
-            mode: 'no-cors',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(formData)
-        });
+        try {
+            await fetch(scriptURL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            });
 
-        // إخفاء النموذج وإظهار رسالة النجاح
-        document.getElementById('contact-form').style.display = 'none';
-        document.getElementById('form-success').style.display = 'block';
+            document.getElementById('contact-form').style.display = 'none';
+            document.getElementById('form-success').style.display = 'block';
 
-    } catch (error) {
-        alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً');
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-    }
-}
+        } catch (error) {
+            alert('حدث خطأ أثناء الإرسال، يرجى المحاولة لاحقاً');
+            submitBtn.textContent = originalText;
+            submitBtn.disabled = false;
+        }
     }
 </script>
 
