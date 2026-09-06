@@ -17,8 +17,8 @@
             --accent-color: #d97706;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
-            --text-main: #2c3e50;
-            --text-muted: #607d8b;
+            --text-main: #1e293b;
+            --text-muted: #475569;
             --border-radius: 16px;
             --shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
         }
@@ -44,7 +44,7 @@
 
         .container {
             width: 100%;
-            max-width: 550px; /* تصغير العرض ليصبح متناسقاً ومباشراً */
+            max-width: 550px;
             background: var(--card-bg);
             border-radius: var(--border-radius);
             box-shadow: var(--shadow);
@@ -242,17 +242,38 @@
             color: #c62828 !important;
         }
 
+        /* تنسيقات سؤال الكتابة المباشرة */
+        .text-answer-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .text-answer-input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #cbd5e1;
+            border-radius: 10px;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .text-answer-input:focus {
+            border-color: var(--primary-color);
+        }
+
         .feedback-box {
             margin-top: 12px;
-            padding: 10px;
+            padding: 12px;
             border-radius: 8px;
             font-size: 0.95rem;
             font-weight: 700;
             display: none;
-            text-align: center;
+            text-align: right;
+            line-height: 1.5;
         }
 
-        /* تصميم النتيجة المصغر والسريع */
         .result-box {
             background: linear-gradient(135deg, #2b5c8f 0%, #1e4269 100%);
             color: white;
@@ -275,37 +296,45 @@
             color: #fde047;
         }
 
-        /* بطاقة العرض المختصرة جداً */
+        /* تعديلات العروض والخطوط الموضحة */
         .offer-card {
             background: #fffbebf5;
             border: 1px solid #fcd34d;
             border-radius: 12px;
-            padding: 14px;
+            padding: 16px;
             margin-bottom: 14px;
+            color: #1e293b; /* خط غامق وأكثر وضوحاً */
         }
 
         .offer-badge {
             background: #d97706;
             color: white;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 800;
-            padding: 2px 8px;
+            padding: 3px 10px;
             border-radius: 6px;
             display: inline-block;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .offer-title {
             font-weight: 800;
-            font-size: 1rem;
-            color: #78350f;
-            margin-bottom: 4px;
+            font-size: 1.1rem;
+            color: #0f172a;
+            margin-bottom: 6px;
         }
 
         .offer-details {
-            font-size: 0.88rem;
-            color: #451a03;
-            line-height: 1.5;
+            font-size: 0.95rem;
+            color: #1e293b;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+
+        .offer-divider {
+            border: 0;
+            border-top: 2px solid #ffffff; /* فاصل خط أبيض واضح */
+            margin: 12px 0;
         }
 
         .quick-links {
@@ -317,7 +346,7 @@
 
         .link-btn {
             font-size: 0.85rem;
-            padding: 8px;
+            padding: 10px;
             border-radius: 8px;
             text-decoration: none;
             font-weight: 700;
@@ -329,7 +358,6 @@
         .fb-bg { background-color: #1877f2; }
         .msg-bg { background-color: #0084ff; }
 
-        /* Modal للنموذج */
         .modal {
             display: none;
             position: fixed;
@@ -346,8 +374,10 @@
             padding: 20px;
             border-radius: 14px;
             width: 100%;
-            max-width: 400px;
+            max-width: 420px;
             position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
         }
 
         .close-modal {
@@ -366,17 +396,19 @@
 
         .form-group label {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             font-weight: 700;
             margin-bottom: 4px;
+            color: var(--text-main);
         }
 
         .form-group input, .form-group select {
             width: 100%;
-            padding: 8px 10px;
+            padding: 9px 11px;
             border: 1px solid #cbd5e1;
             border-radius: 8px;
             font-size: 0.9rem;
+            background: #fff;
         }
     </style>
 </head>
@@ -430,35 +462,41 @@
 
         <div class="question-card">
             <div id="question-text" class="question-title">جاري التحميل...</div>
-            <div id="options-container" class="options-list"></div>
+            <div id="options-container"></div>
             <div id="feedback-box" class="feedback-box"></div>
         </div>
 
         <button id="next-btn" class="btn" style="display: none;" onclick="nextQuestion()">السؤال التالي ←</button>
     </div>
 
-    <!-- 4. شاشة النتيجة النهائية المختصرة والمركزة -->
+    <!-- 4. شاشة النتيجة النهائية -->
     <div id="result-screen" class="screen">
         
-        <!-- النتيجة في بطاقة ملفتة في الأعلى -->
         <div class="result-box">
             <div style="font-size: 0.9rem; opacity: 0.9;">نتيجتك النهائية هي:</div>
             <div id="score-text" class="score-number">0 / 10</div>
             <div id="evaluation-text" class="score-label">ممتاز</div>
         </div>
 
-        <!-- بطاقة العرض السريع دون الإطالة -->
+        <!-- بطاقة العروض والتفاصيل بمظهر محسن وخط أوضح -->
         <div class="offer-card">
-            <span class="offer-badge">🔥 عرض سبتمبر الخاص</span>
-            <div class="offer-title">دورة "أساسيات الإعراب" + دروس الدعم</div>
+            <div class="offer-title">دورة "أساسيات الإعراب"</div>
             <div class="offer-details">
-                • <strong>دورة الأساسيات:</strong> 500 دج (3 أيام / 6 ساعات).<br>
-                • <strong>عرض الشارع (الدورة + دعم سبتمبر):</strong> 1000 دج فقط!<br>
-                • <strong>دروس الدعم الشهرية:</strong> 4 متوسط (1500دج) | بكالوريا (2500دج).
+                • <strong>إشراف:</strong> الأستاذ وليد خنيش.<br>
+                • <strong>السعر:</strong> 500 دج (50 ألف).<br>
+                • <strong>المدة:</strong> 3 أيام (6 ساعات) — سجل الآن!
+            </div>
+            
+            <!-- خط أبيض فاصل -->
+            <hr class="offer-divider">
+
+            <span class="offer-badge">🎁 عرض خاص بشهر سبتمبر</span>
+            <div class="offer-details">
+                • <strong>دورة أساسيات الإعراب + دروس الدعم لشهر سبتمبر:</strong> 1000 دج فقط!<br>
+                • <strong>دروس الدعم فقط:</strong> الرابعة متوسط (1500 دج) | البكالوريا (2500 دج) للشهر.
             </div>
         </div>
 
-        <!-- أزرار الدعوة إلى الإجراء المباشر (CTA) -->
         <a href="https://wa.me/message/SA4O3V6I7YAIM1" target="_blank" class="btn btn-success">
             🟢 احجز مكانك الآن عبر واتساب
         </a>
@@ -471,27 +509,28 @@
             <a href="https://web.facebook.com/profile.php?id=100063940999700" target="_blank" class="link-btn fb-bg">
                 فيسبوك
             </a>
-            <a href="https://business.facebook.com/latest/inbox/all/?nav_ref=manage_page_ap_plus_inbox_message_button&asset_id=109526753870497&business_id=1247165376695591" target="_blank" class="link-btn msg-bg">
+            <!-- رابط ميسنجر المعدل -->
+            <a href="https://m.me/100063940999700" target="_blank" class="link-btn msg-bg">
                 ميسنجر
             </a>
         </div>
-
-        <button class="btn btn-secondary" style="border: none; font-size: 0.85rem; margin-top: 6px;" onclick="shareResult()">
-            📤 مشاركة النتيجة
-        </button>
     </div>
 
 </div>
 
-<!-- نافذة نموذج التسجيل المنبثقة (تفتح بضغط زر فقط لمنع التشتت) -->
+<!-- نافذة نموذج التسجيل المعدلة بالحقول الجديدة -->
 <div id="form-modal" class="modal">
     <div class="modal-content">
         <span class="close-modal" onclick="closeModal()">&times;</span>
-        <h3 style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 12px; text-align: center;">نموذج حجز المقعد</h3>
+        <h3 style="font-size: 1.1rem; color: var(--primary-color); margin-bottom: 12px; text-align: center;">نموذج التسجيل</h3>
         <form id="contact-form" onsubmit="handleFormSubmit(event)">
             <div class="form-group">
                 <label>الاسم واللقب</label>
                 <input type="text" id="user-name" required placeholder="اسمك الكامل">
+            </div>
+            <div class="form-group">
+                <label>الولاية</label>
+                <input type="text" id="user-state" required placeholder="أدخل ولايتك">
             </div>
             <div class="form-group">
                 <label>المستوى الدراسي</label>
@@ -502,10 +541,17 @@
                 <input type="tel" id="user-phone" required placeholder="06XXXXXXXX">
             </div>
             <div class="form-group">
+                <label>نوع الدروس</label>
+                <select id="user-lesson-type" required>
+                    <option value="حضوري (عنابة)">حضوري (عنابة)</option>
+                    <option value="عن بعد">عن بعد</option>
+                </select>
+            </div>
+            <div class="form-group">
                 <label>نوع التسجيل</label>
                 <select id="user-course" required>
-                    <option value="دورة أساسيات الإعراب">دورة أساسيات الإعراب (500 دج)</option>
-                    <option value="أساسيات الإعراب + دروس الدعم">العرض المدمج (1000 دج)</option>
+                    <option value="دورة أساسيات الإعراب">دورة أساسيات الإعراب</option>
+                    <option value="أساسيات الإعراب + دروس الدعم">أساسيات الإعراب + دروس الدعم</option>
                 </select>
             </div>
             <button type="submit" class="btn" style="padding: 10px; font-size: 0.95rem; margin-top: 10px;">إرسال الطلب</button>
@@ -515,109 +561,130 @@
 </div>
 
 <script>
+    // الأسئلة المحدثة بحسب تعديلاتك المطلوبة (السؤال رقم 10 كتابي بدون خيارات)
     const questionsDatabase = {
         middle: [
             {
                 q: "ما إعراب: \"تجتهد\" في جملة: 'عليك أنْ تجتهدَ'؟",
+                type: "mcq",
                 options: ["فعل مضارع مرفوع", "فعل مضارع منصوب بأن", "فعل ماضٍ", "فعل مجزوم"],
                 correct: 1
             },
             {
-                q: "كلمة 'أبوك' في 'حضَرَ أبوك' مرفوعة وعلامة رفعها:",
-                options: ["الضمة", "الواو", "الألف", "ثبوت النون"],
-                correct: 1
+                q: "أعرب كلمة \"كلُّهم\" في الجملة: \"نجحَ الطلابُ كلُّهم.\"",
+                type: "mcq",
+                options: ["توكيد معنوي مرفوع بالضمة", "فاعل مرفوع بالضمة", "بدل مرفوع", "مفعول به"],
+                correct: 0
             },
             {
                 q: "إعراب 'يكتبون' في 'الطلاب يكتبون الدرس':",
+                type: "mcq",
                 options: ["فعل مضارع مرفوع بالضمة", "فعل مضارع مرفوع بثبوت النون", "مرفوع بالواو والنون", "مبتدأ"],
                 correct: 1
             },
             {
-                q: "ما حكم الممنوع من الصرف إذا لم يُضف ولم يُعرّف بـ 'أل'؟",
-                options: ["يجُر بالفتحة نيابة عن الكسرة", "يجُر بالكسرة", "يُبنى على السكون", "يُنصب بالضمة"],
+                q: "أعرب كلمة \"كتابًا\" في الجملة: \"اشتريتُ عشرينَ كتابًا.\"",
+                type: "mcq",
+                options: ["تمييز منصوب وعلامة نصبه الفتحة", "مفعول به منصوب", "حـال منصوبة", "مضاف إليه مجرور"],
                 correct: 0
             },
             {
-                q: "تُعرب 'سريعًا' في 'سار القطار سريعًا':",
-                options: ["مفعول به", "حال منصوب", "صفة", "تمييز"],
-                correct: 1
+                q: "أعرب كلمة \"طالبُ\" في الجملة: \"يا طالبُ اجتهدْ.\"",
+                type: "mcq",
+                options: ["منادى مبني على الضم في محل نصب", "منادى منصوب بالفتحة", "فاعل مرفوع بالضمة", "مبتدأ مرفوع"],
+                correct: 0
             },
             {
-                q: "ما إعراب 'تلميذا' في: 'جاء عشرون تلميذا'؟",
-                options: ["مفعول به", "تمييز منصوب", "بدل", "مضاف إليه"],
-                correct: 1
+                q: "أعرب كلمة \"المجتهدُ\" في الجملة: \"الطالبُ المجتهدُ ناجحٌ.\"",
+                type: "mcq",
+                options: ["نعت (صفة) مرفوع وعلامة رفعه الضمة", "خبر مرفوع بالضمة", "بدل مرفوع", "فاعل مرفوع"],
+                correct: 0
             },
             {
                 q: "في جملة 'كان المعلمُ نشيطاً'، كلمة 'نشيطاً':",
+                type: "mcq",
                 options: ["اسم كان", "خبر كان منصوب", "خبر مرفوع", "صفة"],
                 correct: 1
             },
             {
                 q: "ما إعراب كلمة: الحمدُ في قوله تعالى: (الحمد لله رب العالمين)؟",
+                type: "mcq",
                 options: ["خبر مرفوع", "مبتدأ مرفوع بالضمة", "فاعل مرفوع", "مفعول به"],
                 correct: 1
             },
             {
                 q: "يُجزم الفعل المضارع إذا سُبق بـ:",
+                type: "mcq",
                 options: ["أنْ", "لمْ", "كان", "أنَّ"],
                 correct: 1
             },
             {
-                q: "ما إعراب \"أرميَ\" في جملة: \"لن أرميَ الأوساخ على الأرض\"؟",
-                options: ["فعل مضارع منصوب بلن وعلامة نصبه الفتحة الظاهرة", "فعل مضارع مرفوع", "فعل مضارع مجزوم", "فعل أمر"],
-                correct: 0
+                q: "أعرب كلمة \"المطرُ\" في الجملة: \"ما زالَ المطرُ نازلًا.\"",
+                type: "text",
+                correctKeyword: "اسم ما زال", // كلمة مفتاحية للتحقق من إجابة التلميذ
+                modelAnswer: "اسم ما زال مرفوع وعلامة رفعه الضمة الظاهرة على آخره"
             }
         ],
         secondary: [
             {
                 q: "ما إعراب 'كلا' في: 'حضرَ الطالبانِ كِلاهُما'؟",
+                type: "mcq",
                 options: ["توكيد معنوي مرفوع بالألف", "فاعل مرفوع بالضمة", "بدل", "مفعول به"],
                 correct: 0
             },
             {
-                q: "في جملة 'إياكَ والكسلَ'، الكلمة 'الكسلَ' تُعرب:",
-                options: ["مفعول به بفعل محذوف تقديره احذر", "معطوف مرفوع", "خبر", "مبتدأ مؤخر"],
+                q: "أعرب كلمة \"كلُّهم\" في الجملة: \"نجحَ الطلابُ كلُّهم.\"",
+                type: "mcq",
+                options: ["توكيد معنوي مرفوع بالضمة وهو مضاف", "فاعل مرفوع", "بدل مرفوع", "مفعول به"],
                 correct: 0
             },
             {
                 q: "ما المحل الإعرابي للجملة بين قوسين: 'العلمُ (يرفعُ شأنَ صاحبه)'؟",
+                type: "mcq",
                 options: ["في محل رفع خبر", "في محل نصب حال", "لا محل لها من الإعراب", "في محل جر"],
                 correct: 0
             },
             {
-                q: "ما إعراب 'عسى' في: 'عسى اللهُ أنْ يأتِيَ بالفتحِ'؟",
-                options: ["فعل ماضٍ تام", "فعل جامد من أفعال الرجاء ناسخ", "حرف ترجٍّ", "فعل أمر"],
-                correct: 1
-            },
-            {
-                q: "نوع 'ما' في: 'نِعْمَ ما تفعلُ الإحسانُ':",
-                options: ["موصولة/معرفة تامّة أو نكرة في محل نصب/رفع", "نافية", "زائدة", "استفهامية"],
+                q: "أعرب كلمة \"كتابًا\" في الجملة: \"اشتريتُ عشرينَ كتابًا.\"",
+                type: "mcq",
+                options: ["تمييز ملفوظ منصوب بالفتحة", "مفعول به", "حال", "مضاف إليه"],
                 correct: 0
             },
             {
-                q: "ما إعراب المصدر المؤول في: 'ينبغي أن تدرسَ'؟",
-                options: ["في محل رفع فاعل", "في محل نصب مفعول به", "في محل جر", "لا محل له"],
+                q: "أعرب كلمة \"طالبُ\" في الجملة: \"يا طالبُ اجتهدْ.\"",
+                type: "mcq",
+                options: ["منادى نكرة مقصودة مبني على الضم في محل نصب", "منادى مضاف منصوب", "منادى شبيه بالمضاف", "فاعل"],
+                correct: 0
+            },
+            {
+                q: "أعرب كلمة \"المجتهدُ\" في الجملة: \"الطالبُ المجتهدُ ناجحٌ.\"",
+                type: "mcq",
+                options: ["نعت حقيقي مرفوع بالضمة", "خبر مرفوع", "بدل", "عطف بيان"],
                 correct: 0
             },
             {
                 q: "تُعرب 'نفسه' في: 'جاءَ الرجلُ نفسُهُ':",
+                type: "mcq",
                 options: ["توكيد معنوي مرفوع", "مفعول به", "فاعل ثانٍ", "بدل"],
                 correct: 0
             },
             {
                 q: "نوع المنادى في 'يا طالبًا علمًا اجتهد':",
+                type: "mcq",
                 options: ["منادى شبيه بالمضاف", "منادى مضاف", "منادى نكرة مقصودة", "علم مفرد"],
                 correct: 0
             },
             {
                 q: "ما الإعراب الصحيح لـ 'طالب' في: 'لا طالبَ علمٍ مقهورٌ'؟",
+                type: "mcq",
                 options: ["اسم لا نافية للجنس منصوب", "مبتدأ مرفوع", "اسم لا مبني على الفتح", "خبر لا"],
                 correct: 0
             },
             {
-                q: "الاسم المرفوع بعد 'حبّذا' يُعرب دائماً:",
-                options: ["مبتدأ مؤخر وجوباً", "فاعلاً", "خبر مقدم", "بدلاً"],
-                correct: 0
+                q: "أعرب كلمة \"المطرُ\" في الجملة: \"ما زالَ المطرُ نازلًا.\"",
+                type: "text",
+                correctKeyword: "اسم ما زال",
+                modelAnswer: "اسم ما زال مرفوع وعلامة رفعه الضمة الظاهرة على آخره"
             }
         ]
     };
@@ -658,17 +725,39 @@
         feedbackBox.style.display = 'none';
 
         document.getElementById('question-text').textContent = qData.q;
-
         const optionsContainer = document.getElementById('options-container');
         optionsContainer.innerHTML = '';
 
-        qData.options.forEach((opt, idx) => {
-            const btn = document.createElement('button');
-            btn.className = 'option-btn';
-            btn.textContent = opt;
-            btn.onclick = () => selectOption(idx);
-            optionsContainer.appendChild(btn);
-        });
+        // تمييز السؤال العاشر (كتابي بدون اختيارات)
+        if (qData.type === 'text') {
+            const textContainer = document.createElement('div');
+            textContainer.className = 'text-answer-container';
+            
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.id = 'text-answer-input';
+            input.className = 'text-answer-input';
+            input.placeholder = 'اكتب إعراب الكلمة هنا...';
+            
+            const submitBtn = document.createElement('button');
+            submitBtn.className = 'btn';
+            submitBtn.style.marginTop = '0';
+            submitBtn.textContent = 'تأكيد الإجابة';
+            submitBtn.onclick = () => checkTextAnswer(input.value);
+
+            textContainer.appendChild(input);
+            textContainer.appendChild(submitBtn);
+            optionsContainer.appendChild(textContainer);
+        } else {
+            // الأسئلة ذات الاختيارات المتعددة
+            qData.options.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = 'option-btn';
+                btn.textContent = opt;
+                btn.onclick = () => selectOption(idx);
+                optionsContainer.appendChild(btn);
+            });
+        }
     }
 
     function selectOption(selectedIndex) {
@@ -693,7 +782,37 @@
         }
 
         feedbackBox.style.display = 'block';
+        showNextButton();
+    }
+
+    function checkTextAnswer(userText) {
+        const qData = currentQuestions[currentIndex];
+        const input = document.getElementById('text-answer-input');
+        const feedbackBox = document.getElementById('feedback-box');
         
+        if(!userText.trim()) {
+            alert('يرجى كتابة الإعراب قبل التأكيد');
+            return;
+        }
+
+        input.disabled = true;
+
+        if (userText.includes(qData.correctKeyword) || userText.includes("اسم مازال")) {
+            score++;
+            feedbackBox.innerHTML = `إجابة صحيحة! ✨<br><small>الإعراب النموذجي: ${qData.modelAnswer}</small>`;
+            feedbackBox.style.backgroundColor = "#e8f5e9";
+            feedbackBox.style.color = "#2e7d32";
+        } else {
+            feedbackBox.innerHTML = `إجابة خاطئة! ❌<br><small>الإعراب الصحيح: ${qData.modelAnswer}</small>`;
+            feedbackBox.style.backgroundColor = "#ffebee";
+            feedbackBox.style.color = "#c62828";
+        }
+
+        feedbackBox.style.display = 'block';
+        showNextButton();
+    }
+
+    function showNextButton() {
         const nextBtn = document.getElementById('next-btn');
         nextBtn.textContent = (currentIndex < currentQuestions.length - 1) ? 'السؤال التالي ←' : 'عرض النتيجة 📊';
         nextBtn.style.display = 'block';
@@ -717,16 +836,6 @@
         else if (score >= 7) evalText.textContent = "جيد جدًا! لديك أساس متين 👏";
         else if (score >= 5) evalText.textContent = "نتيجة متوسطة، تحتاج مراجعة ⚖️";
         else evalText.textContent = "تحتاج إلى تأسيس وتدريب 📚";
-    }
-
-    function shareResult() {
-        const text = `حصلت على ${score}/${currentQuestions.length} في اختبار الإعراب مع الأستاذ وليد خنيش! اختبر مستواك الآن:`;
-        if (navigator.share) {
-            navigator.share({ title: 'اختبر نفسك في الإعراب', text: text, url: window.location.href }).catch(() => {});
-        } else {
-            navigator.clipboard.writeText(`${text} ${window.location.href}`);
-            alert('تم نسخ النتيجة ورابط الموقع!');
-        }
     }
 
     function openModal() { document.getElementById('form-modal').style.display = 'flex'; }
