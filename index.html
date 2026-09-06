@@ -847,6 +847,42 @@
         document.getElementById('form-success').style.display = 'block';
     }
 </script>
+<form id="contactForm">
+  <input type="text" name="الاسم واللقب" placeholder="الاسم واللقب" required>
+  <input type="text" name="الولاية" placeholder="الولاية" required>
+  <input type="text" name="المستوى الدراسي" placeholder="المستوى الدراسي" required>
+  <input type="tel" name="رقم الهاتف" placeholder="رقم الهاتف" required>
+  <input type="text" name="نوع الدروس" placeholder="نوع الدروس" required>
+  <input type="text" name="نوع التسجيل" placeholder="نوع التسجيل" required>
+  <button type="submit">إرسال</button>
+</form>
 
+<script>
+  const form = document.getElementById('contactForm');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    // ⚠️ استبدل هذا الرابط بالرابط الذي ستحصل عليه من خطوة النشر أدناه
+    const scriptURL = 'https://script.google.com/macros/s/.../exec'; 
+
+    fetch(scriptURL, {
+      method: 'POST',
+      body: new FormData(form)
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.result === 'success') {
+        alert('تم إرسال بياناتك بنجاح!');
+        form.reset(); // مسح الحقول
+      } else {
+        alert('حدث خطأ: ' + data.error);
+      }
+    })
+    .catch(error => {
+      alert('فشل الاتصال، تأكد من الإنترنت');
+    });
+  });
+</script>
 </body>
 </html>
